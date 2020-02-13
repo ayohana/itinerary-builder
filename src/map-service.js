@@ -1,9 +1,18 @@
 export class MapService{
+
+  generateURL(locations){
+    let url = `https://maps.googleapis.com/maps/api/staticmap?center=Epicodus+Seattle+WA&zoom=8&size=600x600&maptype=roadmap`;
+    for(let i = 0; i < locations.length; i++){
+      url = url + `&markers=label:${i}%7C${locations[i]}`;
+    }
+    url += `&key=${process.env.API_KEY}`;
+    console.log(url);
+    return url;
+  }
+
   async getMarkedMap(locations){
     try {
-      let url = `https://maps.googleapis.com/maps/api/staticmap?center=Epicodus+Seattle+WA&zoom=8&size=600x600&maptype=roadmap
-      &markers=color:blue%7Clabel:1%7CEpicodus+Seattle,WA&markers=color:green%7Clabel:2%7CEdmonds,WA
-      &markers=color:red%7Clabel:0%7CIssaquah,WA&key=${process.env.API_KEY}`
+      let url = this.generateURL(locations);
       let response = await fetch(url);
       console.log(response);
       return response;
